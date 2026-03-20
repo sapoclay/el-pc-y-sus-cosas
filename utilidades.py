@@ -1,5 +1,6 @@
 """Funciones de utilidad compartidas por todos los módulos."""
 
+import getpass
 import subprocess
 import platform
 
@@ -71,11 +72,23 @@ def bytes_a_gb(valor: str) -> str:
         return valor
 
 
+def obtener_usuario_actual() -> str:
+    """Obtiene el usuario actual con un método robusto para Windows y Linux."""
+    try:
+        return getpass.getuser()
+    except Exception:
+        return "Desconocido"
+
+
 def abrir_ruta(ruta: str):
     """Abre un archivo o carpeta con la aplicación predeterminada del SO."""
-    import webbrowser
     if ES_WINDOWS:
-        import os
-        os.startfile(ruta)
+        subprocess.Popen([
+            "cmd",
+            "/c",
+            "start",
+            "",
+            ruta,
+        ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     else:
         subprocess.Popen(["xdg-open", ruta], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)

@@ -3,7 +3,6 @@
 import tkinter as tk
 from tkinter import ttk
 import os
-import sys
 import webbrowser
 
 # Directorio raíz del proyecto
@@ -18,6 +17,7 @@ _COLOR_TEXT = "#e2e8f0"
 _COLOR_TEXT_DIM = "#94a3b8"
 
 URL_PROYECTO = "http://github.com/sapoclay/el-pc-y-sus-cosas"
+_REFERENCIAS_IMAGENES: dict[str, list[tk.PhotoImage]] = {}
 
 FUNCIONALIDADES = [
     ("Sistema operativo", "Nombre del equipo, SO, versión, arquitectura, usuario actual."),
@@ -87,12 +87,20 @@ def _mostrar_about(parent: tk.Tk):
     canvas.create_window((0, 0), window=contenedor, anchor=tk.NW, width=600)
     canvas.configure(yscrollcommand=scrollbar.set)
 
+    referencias_imagenes: list[tk.PhotoImage] = []
+    _REFERENCIAS_IMAGENES[str(about)] = referencias_imagenes
+
     # Habilitar scroll con la rueda del ratón
     def _on_mousewheel(event):
         canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
 
+    def _cerrar_about():
+        _unbind_mousewheel(canvas)
+        _REFERENCIAS_IMAGENES.pop(str(about), None)
+        about.destroy()
+
     canvas.bind_all("<MouseWheel>", _on_mousewheel)
-    about.protocol("WM_DELETE_WINDOW", lambda: (_unbind_mousewheel(canvas), about.destroy()))
+    about.protocol("WM_DELETE_WINDOW", _cerrar_about)
 
     scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
     canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
@@ -114,8 +122,7 @@ def _mostrar_about(parent: tk.Tk):
             else:
                 logo_img = img_original
             # Mantener referencia para que no sea recolectado por el GC
-            about._logo_img = logo_img
-            about._img_original = img_original
+            referencias_imagenes.extend([logo_img, img_original])
             lbl_logo = tk.Label(contenedor, image=logo_img, bg=_COLOR_BG)
             lbl_logo.pack(pady=(pad, 10))
         except Exception:

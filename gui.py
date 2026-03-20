@@ -25,7 +25,7 @@ from exportadores.html_export import exportar_html
 from exportadores.sql_export import exportar_sql
 from menu_bar import crear_menu
 from system_tray import SystemTrayController
-from utilidades import abrir_ruta
+from utilidades import abrir_ruta, obtener_usuario_actual
 
 
 # ── Colores del tema ──────────────────────────────────────────────────────────
@@ -172,7 +172,7 @@ class AplicacionInventario:
             ("Equipo", platform.node()),
             ("SO", f"{platform.system()} {platform.release()}"),
             ("Arquitectura", platform.machine()),
-            ("Usuario", os.getlogin()),
+            ("Usuario", obtener_usuario_actual()),
         ]
         for i, (etiq, val) in enumerate(datos_rapidos):
             col = ttk.Frame(cols, style="Card.TFrame")
@@ -253,10 +253,10 @@ class AplicacionInventario:
         self.bandeja = SystemTrayController(
             titulo="El PC y sus cosas",
             icono_path=icono_path,
-            on_show=lambda: self.root.after(0, self._mostrar_ventana),
-            on_scan=lambda: self.root.after(0, self._iniciar_recopilacion),
-            on_open_reports=lambda: self.root.after(0, self._abrir_carpeta),
-            on_exit=lambda: self.root.after(0, self._cerrar_aplicacion),
+            on_show=lambda: self._ejecutar_en_ui(self._mostrar_ventana),
+            on_scan=lambda: self._ejecutar_en_ui(self._iniciar_recopilacion),
+            on_open_reports=lambda: self._ejecutar_en_ui(self._abrir_carpeta),
+            on_exit=lambda: self._ejecutar_en_ui(self._cerrar_aplicacion),
             can_scan=lambda: not self.recopilando,
         )
 
@@ -276,6 +276,10 @@ class AplicacionInventario:
 
     def _actualizar_estado(self, texto: str):
         self.lbl_estado.configure(text=texto)
+
+    def _ejecutar_en_ui(self, callback):
+        """Programa una función en el hilo de Tk sin devolver el id de after."""
+        self.root.after(0, callback)
 
     # ── Recopilación ──────────────────────────────────────────────────────
 

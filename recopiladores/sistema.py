@@ -1,9 +1,8 @@
 """Recopilador de información del sistema operativo, BIOS y placa base."""
 
 import platform
-import os
 
-from utilidades import obtener_wmic, parsear_wmic, ejecutar_comando, parsear_lista_linux, ES_WINDOWS
+from utilidades import obtener_wmic, parsear_wmic, ejecutar_comando, parsear_lista_linux, ES_WINDOWS, obtener_usuario_actual
 
 
 def info_sistema() -> dict:
@@ -14,7 +13,7 @@ def info_sistema() -> dict:
         "Versión SO": platform.version(),
         "Arquitectura": platform.machine(),
         "Procesador (platform)": platform.processor(),
-        "Usuario actual": os.getlogin(),
+        "Usuario actual": obtener_usuario_actual(),
     }
     if not ES_WINDOWS:
         # Añadir info de distribución Linux
