@@ -1,5 +1,7 @@
 # El PC y sus cosas
 
+<img width="1916" height="1046" alt="about-el-pc-y-sus-cosas" src="https://github.com/user-attachments/assets/a8ab57de-db91-454a-ad7c-1af93829f753" />
+
 Aplicación de escritorio en Python para generar informes de inventario del equipo en formato texto, HTML y SQL.
 
 El objetivo del proyecto es recopilar información relevante del sistema operativo, hardware, red, usuarios y software instalado, y exportarla de forma sencilla para consulta, soporte técnico o documentación.
@@ -134,6 +136,8 @@ informe_NOMBRE-EQUIPO_YYYYMMDD_HHMMSS.sql
 - La bandeja del sistema está preparada para funcionar mediante `pystray`.
 
 ## Posibles usos
+
+<img width="1075" height="1461" alt="informe-el-pc-y-sus-cosas" src="https://github.com/user-attachments/assets/8e5e36d0-17b3-4269-bd72-c64d69fe208a" />
 
 - Inventario rápido de equipos.
 - Soporte técnico y diagnóstico.
