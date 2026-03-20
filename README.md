@@ -1,6 +1,6 @@
 # El PC y sus cosas
 
-![about-el-pc-y-sus-cosas](https://github.com/user-attachments/assets/a8ab57de-db91-454a-ad7c-1af93829f753)
+<img width="800" height="423" alt="interfaz-el-pc-y-sus-cosas" src="https://github.com/user-attachments/assets/f49953e1-8e41-41a3-83fc-4383c9055b2f" />
 
 Aplicación de escritorio en Python para generar informes de inventario del equipo en formato texto, HTML y SQL.
 
